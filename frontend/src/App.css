@@ -1,0 +1,276 @@
+/* =========================================
+   1. RESET Y CONFIGURACIÓN GLOBAL
+   (Corrige el espacio blanco a la derecha)
+   ========================================= */
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html, body {
+  overflow-x: hidden; /* Evita el desplazamiento horizontal */
+  width: 100%;
+  font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+  background-color: #F4F7F5; /* Fondo blanco verdoso apaciguante */
+  color: #2F3E46; /* Texto verde oscuro profundo */
+  scroll-behavior: smooth;
+}
+
+.container {
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 0 20px;
+}
+
+/* =========================================
+   2. HEADER Y NAVEGACIÓN
+   (Mejora la distinción entre botones)
+   ========================================= */
+.header {
+  background-color: #2D6A4F; /* Verde Bosque principal */
+  color: #F4F7F5;
+  padding: 15px 5%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  position: sticky;
+  top: 0;
+  z-index: 1000;
+  box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+  width: 100%;
+}
+
+.logo {
+  font-size: 1.5rem;
+  font-weight: bold;
+  letter-spacing: 0.5px;
+}
+
+.nav {
+  display: flex;
+  align-items: center;
+  gap: 25px; /* Espacio generoso entre links */
+}
+
+.nav-link {
+  color: #F4F7F5;
+  text-decoration: none;
+  font-weight: 500;
+  font-size: 0.95rem;
+  transition: opacity 0.3s ease;
+  opacity: 0.85;
+}
+
+.nav-link:hover {
+  opacity: 1;
+}
+
+/* Botón destacado en el Header para "Agendar Reunión" */
+.btn-header-cta {
+  background-color: #F4F7F5;
+  color: #2D6A4F !important;
+  padding: 8px 18px;
+  border-radius: 6px;
+  text-decoration: none;
+  font-weight: bold;
+  font-size: 0.9rem;
+  transition: all 0.3s ease;
+  box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+}
+
+.btn-header-cta:hover {
+  background-color: #A8E6CF;
+  transform: translateY(-1px);
+}
+
+/* Icono menú móvil */
+.menu-icon {
+  display: none;
+  font-size: 1.8rem;
+  cursor: pointer;
+}
+
+/* =========================================
+   3. SECCIONES (HERO, NOSOTROS, SERVICIOS)
+   ========================================= */
+
+/* Hero Section - Inicio */
+.hero-section {
+  padding: 100px 20px;
+  min-height: 75vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+}
+
+.hero-title {
+  font-size: 3rem;
+  color: #2F3E46;
+  line-height: 1.2;
+  margin-bottom: 20px;
+}
+
+.hero-subtitle {
+  font-size: 1.3rem;
+  color: #52796F;
+  margin-bottom: 40px;
+}
+
+/* Secciones Generales */
+.section-light { background-color: #ffffff; padding: 80px 0; }
+.section-dark { background-color: #E8EDE9; padding: 80px 0; }
+
+.section-title {
+  font-size: 2.2rem;
+  margin-bottom: 20px;
+  color: #2D6A4F;
+}
+
+.text {
+  max-width: 800px;
+  margin: 0 auto 40px;
+  line-height: 1.7;
+  font-size: 1.1rem;
+  color: #4A5568;
+}
+
+/* Cards de Servicios */
+.grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 25px;
+  margin-top: 40px;
+}
+
+.card {
+  background: white;
+  padding: 30px;
+  border-radius: 12px;
+  border: 1px solid #E2E8F0;
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 6px rgba(0,0,0,0.02);
+}
+
+.card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 10px 20px rgba(0,0,0,0.05);
+  border-color: #A8E6CF;
+}
+
+.card-title {
+  color: #2D6A4F;
+  font-size: 1.2rem;
+  margin-bottom: 10px;
+}
+
+/* =========================================
+   4. FORMULARIO Y FOOTER
+   ========================================= */
+.form {
+  max-width: 550px;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+.input, .textarea {
+  width: 100%;
+  padding: 14px;
+  border: 1px solid #CBD5E0;
+  border-radius: 8px;
+  font-size: 1rem;
+}
+
+.input:focus, .textarea:focus {
+  outline: none;
+  border-color: #2D6A4F;
+  box-shadow: 0 0 0 3px rgba(45, 106, 79, 0.1);
+}
+
+.btn-primary {
+  background-color: #2D6A4F;
+  color: white;
+  padding: 16px 30px;
+  border: none;
+  border-radius: 8px;
+  font-weight: bold;
+  cursor: pointer;
+  transition: background 0.3s;
+}
+
+.btn-primary:hover {
+  background-color: #1B4332;
+}
+
+.footer {
+  background-color: #1B262C;
+  color: #A8E6CF;
+  padding: 40px 20px;
+  text-align: center;
+  font-size: 0.9rem;
+}
+
+/* =========================================
+   5. RESPONSIVE DESIGN (MÓVILES)
+   ========================================= */
+@media (max-width: 768px) {
+  .menu-icon {
+    display: block;
+  }
+
+  .nav {
+    display: none; /* Se activa con la clase nav-mobile-active en JS */
+    flex-direction: column;
+    position: absolute;
+    top: 100%;
+    left: 0;
+    width: 100%;
+    background-color: #2D6A4F;
+    padding: 30px;
+    gap: 20px;
+    box-shadow: 0 10px 15px rgba(0,0,0,0.1);
+  }
+
+  .nav-mobile-active {
+    display: flex;
+  }
+
+  .hero-title {
+    font-size: 2.2rem;
+  }
+
+  .grid {
+    grid-template-columns: 1fr; /* Una columna en móvil */
+  }
+
+  .btn-header-cta {
+    width: 100%;
+    text-align: center;
+  }
+}
+
+/* Botón WhatsApp Flotante */
+.btn-whatsapp {
+  position: fixed;
+  bottom: 25px;
+  right: 25px;
+  background-color: #25D366;
+  color: white;
+  padding: 12px 20px;
+  border-radius: 50px;
+  text-decoration: none;
+  font-weight: bold;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+  z-index: 100;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  transition: transform 0.3s;
+}
+
+.btn-whatsapp:hover {
+  transform: scale(1.05);
+}
