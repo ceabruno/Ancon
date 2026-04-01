@@ -7,16 +7,22 @@ export default function Header() {
     <header className="header">
       <h1 className="logo">AnCon SPA</h1>
       
-      {/* Botón hamburguesa para móvil */}
-      <div className="menu-icon" onClick={() => setIsOpen(!isOpen)} style={styles.mobileMenuIcon}>
+      {/* Botón hamburguesa para móvil (Solo usa clases ahora) */}
+      <div className="menu-icon" onClick={() => setIsOpen(!isOpen)}>
         {isOpen ? '✕' : '☰'}
       </div>
 
-      <nav className={`nav ${isOpen ? 'nav-mobile-active' : ''}`} style={isOpen ? styles.navMobile : {}}>
+      {/* Navegación limpia */}
+      <nav className={`nav ${isOpen ? 'nav-mobile-active' : ''}`}>
         <a href="#inicio" className="nav-link" onClick={() => setIsOpen(false)}>Inicio</a>
         <a href="#nosotros" className="nav-link" onClick={() => setIsOpen(false)}>Nosotros</a>
         <a href="#servicios" className="nav-link" onClick={() => setIsOpen(false)}>Servicios</a>
-        {/* Destacamos Contacto como un botón diferente para que no se confunda */}
+        
+        {/* Usamos las clases nav-link y btn-login juntas */}
+        <a href="#login" className="nav-link btn-login" onClick={() => setIsOpen(false)}>
+          👤 Iniciar Sesión
+        </a>
+
         <a href="#contacto" className="btn-header-cta" onClick={() => setIsOpen(false)}>
           Agendar Reunión
         </a>
@@ -24,14 +30,3 @@ export default function Header() {
     </header>
   );
 }
-
-const styles = {
-  mobileMenuIcon: {
-    display: 'none', // Se activa con Media Queries en el CSS
-    fontSize: '2rem',
-    color: 'white',
-    cursor: 'pointer',
-  },
-  // Estilos rápidos para el CTA del header
-  // (Idealmente mover estos a App.css más adelante)
-};
