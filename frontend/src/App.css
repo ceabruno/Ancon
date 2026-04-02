@@ -176,9 +176,7 @@ html, body {
   font-size: 1.2rem;
   margin-bottom: 10px;
 }
-/* =========================================
-   DISEÑO PREMIUM PARA SERVICIOS
-   ========================================= */
+
 /* =========================================
    DISEÑO PREMIUM PARA SERVICIOS (CON ANIMACIÓN)
    ========================================= */
@@ -329,6 +327,8 @@ html, body {
   align-items: center;
   gap: 10px;
   transition: transform 0.3s;
+  justify-content: center;
+  gap: 8px;              /* Espacio bonito entre el logo y la palabra */
 }
 
 .btn-whatsapp:hover {
