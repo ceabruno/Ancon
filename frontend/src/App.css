@@ -275,6 +275,7 @@ html, body {
    5. RESPONSIVE DESIGN (MÓVILES)
    ========================================= */
 @media (max-width: 768px) {
+  /* --- Navegación --- */
   .menu-icon {
     display: block;
   }
@@ -296,17 +297,34 @@ html, body {
     display: flex;
   }
 
+  .btn-header-cta {
+    width: 100%;
+    text-align: center;
+  }
+
+  /* --- Textos y Grillas Generales --- */
   .hero-title {
     font-size: 2.2rem;
   }
 
   .grid {
-    grid-template-columns: 1fr; /* Una columna en móvil */
+    grid-template-columns: 1fr; /* Una columna en móvil para secciones generales */
   }
 
-  .btn-header-cta {
-    width: 100%;
+  /* --- NUEVO: Ajustes para Servicios --- */
+  .servicios-grid {
+    /* Forzamos a que siempre haya 2 columnas de igual tamaño */
+    grid-template-columns: repeat(2, 1fr);
+    gap: 12px;
+  }
+
+  .servicio-item {
+    /* Hacemos la tarjeta más compacta e invertimos la dirección */
+    padding: 16px 12px; 
+    font-size: 0.85rem; 
+    flex-direction: column; 
     text-align: center;
+    gap: 8px;
   }
 }
 
@@ -334,3 +352,4 @@ html, body {
 .btn-whatsapp:hover {
   transform: scale(1.05);
 }
+
