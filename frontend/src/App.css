@@ -179,6 +179,9 @@ html, body {
 /* =========================================
    DISEÑO PREMIUM PARA SERVICIOS
    ========================================= */
+/* =========================================
+   DISEÑO PREMIUM PARA SERVICIOS (CON ANIMACIÓN)
+   ========================================= */
 .servicios-grid {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
@@ -189,22 +192,38 @@ html, body {
   background: white;
   padding: 20px 24px;
   border-radius: 12px;
-  border: 1px solid #E2E8F0; /* Borde muy suave y elegante */
-  box-shadow: 0 2px 4px rgba(0,0,0,0.02); /* Sombra casi invisible */
+  border: 1px solid #E2E8F0;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.02);
   font-weight: 500;
   font-size: 1rem;
   color: #4A5568;
   display: flex;
   align-items: center;
   gap: 16px;
-  transition: all 0.3s ease;
+  cursor: pointer; /* El cursor cambia a la manito para invitar a interactuar */
+  
+  /* Aquí está la magia: un efecto elástico muy suave */
+  transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275); 
 }
 
+/* Preparamos el SVG del check para que también se anime */
+.servicio-item svg {
+  transition: transform 0.4s ease, stroke 0.4s ease;
+}
+
+/* Lo que pasa cuando el mouse está encima de la tarjeta */
 .servicio-item:hover {
-  transform: translateY(-4px); /* Se levanta suavemente hacia arriba */
-  box-shadow: 0 10px 20px rgba(45, 106, 79, 0.08); /* Sombra verde tenue */
+  transform: translateY(-6px) scale(1.02); /* Se levanta y crece apenas un 2% */
+  box-shadow: 0 15px 25px rgba(45, 106, 79, 0.1); /* Sombra difuminada */
   border-color: #A8E6CF;
-  color: #2D6A4F; /* El texto se oscurece un poco al pasar el mouse */
+  color: #2D6A4F;
+  
+}
+
+/* Lo que le pasa al ÍCONO cuando el mouse está encima de la tarjeta */
+.servicio-item:hover svg {
+  transform: scale(1.2) rotate(5deg); /* El check crece un 20% y se inclina divertido */
+  stroke: #1B4332; /* El verde se vuelve más intenso */
 }
 /* =========================================
    4. FORMULARIO Y FOOTER
