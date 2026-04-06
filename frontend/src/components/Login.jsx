@@ -1,6 +1,5 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
-// IMPORTANTE: Agregamos Link aquí
 import { useNavigate, Link } from 'react-router-dom';
 
 export default function Login() {
@@ -12,6 +11,14 @@ export default function Login() {
 
   const [estadoRespuesta, setEstadoRespuesta] = useState({ tipo: '', texto: '' });
   const [cargando, setCargando] = useState(false);
+
+  // NUEVO: Bloqueo inteligente. Si ya inició sesión, lo enviamos al portal.
+  useEffect(() => {
+    const usuarioGuardado = localStorage.getItem('usuarioAncon');
+    if (usuarioGuardado) {
+      navigate('/portal');
+    }
+  }, [navigate]);
 
   const handleChange = (e) => {
     setFormData({
@@ -66,7 +73,6 @@ export default function Login() {
         transition={{ duration: 0.5 }}
         className="container login-container"
       >
-        {/* NUEVO BOTÓN DE VOLVER */}
         <Link to="/" className="btn-back">
           &larr; Volver al inicio
         </Link>
