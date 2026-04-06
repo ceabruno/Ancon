@@ -1,0 +1,5 @@
+# Ignorar configuración local de Docker
+docker-compose.yml
+docker/
+Dockerfile
+backend/crear_admin.php

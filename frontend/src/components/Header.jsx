@@ -1,4 +1,6 @@
 import React, { useState } from 'react';
+// IMPORTANTE: Traemos el componente Link de react-router-dom
+import { Link } from 'react-router-dom';
 
 // Ícono SVG elegante para el usuario (reemplaza al emoji)
 const UserIcon = () => (
@@ -20,14 +22,15 @@ export default function Header() {
       </div>
 
       <nav className={`nav ${isOpen ? 'nav-mobile-active' : ''}`}>
+        {/* Enlaces de scroll en la misma página */}
         <a href="#inicio" className="nav-link" onClick={() => setIsOpen(false)}>Inicio</a>
         <a href="#nosotros" className="nav-link" onClick={() => setIsOpen(false)}>Nosotros</a>
         <a href="#servicios" className="nav-link" onClick={() => setIsOpen(false)}>Servicios</a>
         
-        {/* Aquí integramos el nuevo ícono SVG */}
-        <a href="#login" className="nav-link btn-login" onClick={() => setIsOpen(false)}>
+        {/* Aquí está la magia: Usamos <Link> con la propiedad "to" en vez de href */}
+        <Link to="/login" className="nav-link btn-login" onClick={() => setIsOpen(false)}>
           <UserIcon /> Iniciar Sesión
-        </a>
+        </Link>
 
         <a href="#contacto" className="btn-header-cta" onClick={() => setIsOpen(false)}>
           Agendar Reunión
