@@ -3,4 +3,8 @@ docker-compose.yml
 docker/
 Dockerfile
 backend/crear_admin.php
+.venv/
+venv/
+env/
+ENV/
 .env
