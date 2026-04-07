@@ -1,6 +1,6 @@
 import React from 'react';
 import { motion } from 'framer-motion';
-import heroImg from '../assets/hero.png'; // 1. Importamos la imagen
+import heroImg from '../assets/hero.webp'; // 1. Importamos la imagen
 
 export default function Hero() {
   return (

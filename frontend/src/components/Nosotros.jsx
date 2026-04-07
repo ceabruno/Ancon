@@ -1,6 +1,6 @@
 import React from 'react';
 import { motion } from 'framer-motion';
-import nosotrosImg from '../assets/nosotros.jpg'; // Asegúrate de tener una imagen con este nombre
+import nosotrosImg from '../assets/nosotros.webp'; // Asegúrate de tener una imagen con este nombre
 
 export default function Nosotros() {
   return (
