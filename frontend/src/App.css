@@ -1,517 +1,153 @@
 /* =========================================
-   1. RESET Y CONFIGURACIÓN GLOBAL
-   (Corrige el espacio blanco a la derecha)
+   1. VARIABLES DE COLOR (NUEVA PALETA)
    ========================================= */
-* {
-  box-sizing: border-box;
-  margin: 0;
-  padding: 0;
+:root {
+  --esmeralda: #006A4E;        /* Verde Esmeralda Oscuro (Principal) */
+  --esmeralda-hover: #004D38;  /* Tono más oscuro para botones al pasar el mouse */
+  --carbon: #333333;           /* Gris Carbón (Textos principales) */
+  --carbon-light: #5A5A5A;     /* Gris Carbón suave (Subtítulos) */
+  --perla: #F5F7FA;            /* Gris Perla (Fondo general) */
+  --blanco: #FFFFFF;           /* Blanco (Contenedores y contraste) */
+  --border: #E0E0E0;           /* Gris muy claro para bordes y divisores */
 }
 
+/* =========================================
+   2. RESET Y TIPOGRAFÍA GLOBAL
+   ========================================= */
+* { box-sizing: border-box; margin: 0; padding: 0; }
+
 html, body {
-  overflow-x: hidden; /* Evita el desplazamiento horizontal */
-  width: 100%;
+  overflow-x: hidden; width: 100%;
   font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
-  background-color: #F4F7F5; /* Fondo blanco verdoso apaciguante */
-  color: #2F3E46; /* Texto verde oscuro profundo */
+  background-color: var(--perla);
+  color: var(--carbon);
   scroll-behavior: smooth;
 }
 
-.container {
-  max-width: 1100px;
-  margin: 0 auto;
-  padding: 0 20px;
+.container { max-width: 1100px; margin: 0 auto; padding: 0 20px; }
+
+/* --- Tipografía General --- */
+.hero-title { font-size: 3rem; line-height: 1.2; margin-bottom: 20px; color: var(--carbon); }
+.hero-subtitle { font-size: 1.3rem; color: var(--carbon-light); margin-bottom: 40px; }
+.section-title, .portal-card-title, .portal-header-title, .card-title {
+  color: var(--esmeralda); font-weight: bold; margin-bottom: 20px;
 }
+.section-title { font-size: 2.2rem; }
+.portal-card-title { font-size: 1.5rem; border-bottom: 2px solid var(--border); padding-bottom: 15px; }
+.text { max-width: 800px; margin: 0 auto 40px; line-height: 1.7; font-size: 1.1rem; color: var(--carbon-light); }
 
 /* =========================================
-   2. HEADER Y NAVEGACIÓN
-   (Mejora la distinción entre botones)
+   3. ESTRUCTURA, SECCIONES Y TARJETAS
    ========================================= */
-.header {
-  background-color: #2D6A4F; /* Verde Bosque principal */
-  color: #F4F7F5;
-  padding: 15px 5%;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  position: sticky;
-  top: 0;
-  z-index: 1000;
-  box-shadow: 0 2px 10px rgba(0,0,0,0.1);
-  width: 100%;
-}
+.section-light { background-color: var(--blanco); padding: 80px 0; }
+.section-dark, .portal-layout, .login-section { background-color: var(--perla); padding: 80px 0; }
+.hero-section { padding: 100px 20px; min-height: 75vh; display: flex; align-items: center; justify-content: center; }
+.hero-container { display: flex; align-items: center; justify-content: space-between; gap: 50px; text-align: left; }
+.hero-text { flex: 1; }
+.hero-image { flex: 1; display: flex; justify-content: center; }
+.portal-layout, .login-section { min-height: 100vh; padding: 0; }
+.login-section { display: flex; align-items: center; }
+.portal-main { padding: 50px 5%; max-width: 1200px; margin: 0 auto; }
 
-.logo {
-  font-size: 1.5rem;
-  font-weight: bold;
-  letter-spacing: 0.5px;
-}
-
-.nav {
-  display: flex;
-  align-items: center;
-  gap: 25px; /* Espacio generoso entre links */
-}
-
-.nav-link {
-  color: #F4F7F5;
-  text-decoration: none;
-  font-weight: 500;
-  font-size: 0.95rem;
-  transition: opacity 0.3s ease;
-  opacity: 0.85;
-}
-
-.nav-link:hover {
-  opacity: 1;
-}
-
-/* Botón destacado en el Header para "Agendar Reunión" */
-.btn-header-cta {
-  background-color: #F4F7F5;
-  color: #2D6A4F !important;
-  padding: 8px 18px;
-  border-radius: 6px;
-  text-decoration: none;
-  font-weight: bold;
-  font-size: 0.9rem;
-  transition: all 0.3s ease;
-  box-shadow: 0 2px 5px rgba(0,0,0,0.1);
-}
-
-.btn-header-cta:hover {
-  background-color: #A8E6CF;
-  transform: translateY(-1px);
-}
-
-/* Icono menú móvil */
-.menu-icon {
-  display: none;
-  font-size: 1.8rem;
-  cursor: pointer;
-}
-/* Botón secundario para Portal de Clientes */
-.btn-login {
-  border: 1px solid #A8E6CF;
-  padding: 6px 14px;
-  border-radius: 6px;
-  display: flex;
-  align-items: center;
-  gap: 6px;
-}
-
-.btn-login:hover {
-  background-color: rgba(168, 230, 207, 0.1);
-}
-/* =========================================
-   3. SECCIONES (HERO, NOSOTROS, SERVICIOS)
-   ========================================= */
-
-/* Hero Section - Inicio */
-.hero-section {
-  padding: 100px 20px;
-  min-height: 75vh;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  text-align: center;
-}
-
-.hero-title {
-  font-size: 3rem;
-  color: #2F3E46;
-  line-height: 1.2;
-  margin-bottom: 20px;
-}
-
-.hero-subtitle {
-  font-size: 1.3rem;
-  color: #52796F;
-  margin-bottom: 40px;
-}
-
-/* Secciones Generales */
-.section-light { background-color: #ffffff; padding: 80px 0; }
-.section-dark { background-color: #E8EDE9; padding: 80px 0; }
-
-.section-title {
-  font-size: 2.2rem;
-  margin-bottom: 20px;
-  color: #2D6A4F;
-}
-
-.text {
-  max-width: 800px;
-  margin: 0 auto 40px;
-  line-height: 1.7;
-  font-size: 1.1rem;
-  color: #4A5568;
-}
-
-/* Cards de Servicios */
-.grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-  gap: 25px;
-  margin-top: 40px;
-}
-
-.card {
-  background: white;
-  padding: 30px;
+/* Estilos combinados para todas las "Cajas" (Cards, Portal, Login) */
+.card, .servicio-item, .login-container, .portal-card {
+  background: var(--blanco);
   border-radius: 12px;
-  border: 1px solid #E2E8F0;
-  transition: all 0.3s ease;
-  box-shadow: 0 4px 6px rgba(0,0,0,0.02);
+  border: 1px solid var(--border);
+  box-shadow: 0 4px 15px rgba(0,0,0,0.03);
 }
 
-.card:hover {
-  transform: translateY(-5px);
-  box-shadow: 0 10px 20px rgba(0,0,0,0.05);
-  border-color: #A8E6CF;
-}
-
-.card-title {
-  color: #2D6A4F;
-  font-size: 1.2rem;
-  margin-bottom: 10px;
-}
+.card { padding: 30px; transition: all 0.3s ease; }
+.card:hover { transform: translateY(-5px); box-shadow: 0 10px 20px rgba(0,0,0,0.08); border-color: var(--esmeralda); }
+.portal-card, .login-container { padding: 35px; }
+.login-container { max-width: 400px; margin: 0 auto; }
+.login-container .section-title { text-align: center; font-size: 1.8rem; margin-bottom: 10px; }
+.login-subtitle { text-align: center; margin-bottom: 30px; font-size: 1rem; color: var(--carbon-light); }
+.portal-empty-text { color: var(--carbon-light); text-align: center; padding: 40px 0; font-style: italic; }
 
 /* =========================================
-   DISEÑO PREMIUM PARA SERVICIOS (CON ANIMACIÓN)
+   4. GRILLAS Y ANIMACIÓN DE SERVICIOS
    ========================================= */
-.servicios-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-  gap: 20px;
-}
+.grid, .servicios-grid { display: grid; gap: 25px; margin-top: 40px; }
+.grid { grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); }
+.servicios-grid { grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 20px; margin-top: 0;}
 
 .servicio-item {
-  background: white;
-  padding: 20px 24px;
-  border-radius: 12px;
-  border: 1px solid #E2E8F0;
-  box-shadow: 0 2px 4px rgba(0,0,0,0.02);
-  font-weight: 500;
-  font-size: 1rem;
-  color: #4A5568;
-  display: flex;
-  align-items: center;
-  gap: 16px;
-  cursor: pointer; /* El cursor cambia a la manito para invitar a interactuar */
-  
-  /* Aquí está la magia: un efecto elástico muy suave */
-  transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275); 
+  padding: 20px 24px; font-weight: 500; font-size: 1rem; color: var(--carbon);
+  display: flex; align-items: center; gap: 16px; cursor: pointer;
+  transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
 }
+.servicio-item svg { transition: transform 0.4s ease, stroke 0.4s ease; stroke: var(--esmeralda); }
+.servicio-item:hover { transform: translateY(-6px) scale(1.02); box-shadow: 0 15px 25px rgba(0, 106, 78, 0.15); border-color: var(--esmeralda); color: var(--esmeralda); }
+.servicio-item:hover svg { transform: scale(1.2) rotate(5deg); stroke: var(--esmeralda-hover); }
 
-/* Preparamos el SVG del check para que también se anime */
-.servicio-item svg {
-  transition: transform 0.4s ease, stroke 0.4s ease;
-}
-
-/* Lo que pasa cuando el mouse está encima de la tarjeta */
-.servicio-item:hover {
-  transform: translateY(-6px) scale(1.02); /* Se levanta y crece apenas un 2% */
-  box-shadow: 0 15px 25px rgba(45, 106, 79, 0.1); /* Sombra difuminada */
-  border-color: #A8E6CF;
-  color: #2D6A4F;
-  
-}
-
-/* Lo que le pasa al ÍCONO cuando el mouse está encima de la tarjeta */
-.servicio-item:hover svg {
-  transform: scale(1.2) rotate(5deg); /* El check crece un 20% y se inclina divertido */
-  stroke: #1B4332; /* El verde se vuelve más intenso */
-}
 /* =========================================
-   4. FORMULARIO Y FOOTER
+   5. NAVEGACIÓN (HEADER) Y FOOTER
    ========================================= */
-.form {
-  max-width: 550px;
-  margin: 0 auto;
-  display: flex;
-  flex-direction: column;
-  gap: 15px;
+.header, .portal-header {
+  background-color: var(--esmeralda); color: var(--blanco);
+  padding: 15px 5%; display: flex; justify-content: space-between; align-items: center;
+  box-shadow: 0 2px 10px rgba(0,0,0,0.1); width: 100%;
 }
-
-.input, .textarea {
-  width: 100%;
-  padding: 14px;
-  border: 1px solid #CBD5E0;
-  border-radius: 8px;
-  font-size: 1rem;
-}
-
-.input:focus, .textarea:focus {
-  outline: none;
-  border-color: #2D6A4F;
-  box-shadow: 0 0 0 3px rgba(45, 106, 79, 0.1);
-}
-
-.btn-primary {
-  background-color: #2D6A4F;
-  color: white;
-  padding: 16px 30px;
-  border: none;
-  border-radius: 8px;
-  font-weight: bold;
-  cursor: pointer;
-  transition: background 0.3s;
-}
-
-.btn-primary:hover {
-  background-color: #1B4332;
-}
-
-.footer {
-  background-color: #1B262C;
-  color: #A8E6CF;
-  padding: 40px 20px;
-  text-align: center;
-  font-size: 0.9rem;
-}
+.header { position: sticky; top: 0; z-index: 1000; }
+.logo { font-size: 1.5rem; font-weight: bold; letter-spacing: 0.5px; }
+.nav { display: flex; align-items: center; gap: 25px; }
+.nav-link { color: var(--blanco); text-decoration: none; font-weight: 500; font-size: 0.95rem; opacity: 0.85; transition: opacity 0.3s ease; }
+.nav-link:hover { opacity: 1; }
+.menu-icon { display: none; font-size: 1.8rem; cursor: pointer; }
+.portal-user-info { display: flex; align-items: center; gap: 20px; font-size: 0.95rem; }
+.footer { background-color: var(--carbon); color: var(--perla); padding: 40px 20px; text-align: center; font-size: 0.9rem; }
 
 /* =========================================
-   5. RESPONSIVE DESIGN (MÓVILES)
+   6. BOTONES (Consolidados)
+   ========================================= */
+.btn-primary, .btn-header-cta, .btn-login, .btn-logout, .btn-whatsapp, .btn-back {
+  border-radius: 6px; text-decoration: none; font-weight: bold; cursor: pointer; transition: all 0.3s ease;
+}
+
+.btn-primary { background-color: var(--esmeralda); color: var(--blanco); padding: 16px 30px; border: none; }
+.btn-primary:hover { background-color: var(--esmeralda-hover); }
+.btn-full-width { width: 100%; }
+
+.btn-header-cta { background-color: var(--blanco); color: var(--esmeralda); padding: 8px 18px; font-size: 0.9rem; box-shadow: 0 2px 5px rgba(0,0,0,0.1); }
+.btn-header-cta:hover { background-color: var(--perla); transform: translateY(-1px); }
+
+.btn-login, .btn-logout { background-color: transparent; border: 1px solid var(--perla); padding: 6px 14px; color: var(--blanco); display: flex; align-items: center; gap: 6px; }
+.btn-login:hover, .btn-logout:hover { background-color: rgba(255, 255, 255, 0.15); }
+
+.btn-whatsapp { position: fixed; bottom: 25px; right: 25px; background-color: #25D366; color: var(--blanco); padding: 12px 20px; border-radius: 50px; z-index: 100; display: flex; align-items: center; gap: 8px; box-shadow: 0 4px 12px rgba(0,0,0,0.2); }
+.btn-whatsapp:hover { transform: scale(1.05); }
+
+.btn-back { display: inline-block; margin-bottom: 20px; color: var(--carbon-light); font-size: 0.9rem; }
+.btn-back:hover { color: var(--esmeralda); text-decoration: underline; }
+
+/* =========================================
+   7. FORMULARIOS Y MENSAJES
+   ========================================= */
+.form { max-width: 550px; margin: 0 auto; display: flex; flex-direction: column; gap: 15px; }
+.input, .textarea { width: 100%; padding: 14px; border: 1px solid var(--border); border-radius: 8px; font-size: 1rem; color: var(--carbon); background-color: var(--blanco); }
+.input:focus, .textarea:focus { outline: none; border-color: var(--esmeralda); box-shadow: 0 0 0 3px rgba(0, 106, 78, 0.1); }
+.form-message { margin-top: 15px; text-align: center; font-weight: bold; }
+.form-message.success { color: var(--esmeralda); }
+.form-message.error { color: #d9534f; }
+
+/* =========================================
+   8. DISEÑO RESPONSIVE (MÓVILES)
    ========================================= */
 @media (max-width: 768px) {
-  /* --- Navegación --- */
-  .menu-icon {
-    display: block;
-  }
-
-  .nav {
-    display: none; /* Se activa con la clase nav-mobile-active en JS */
-    flex-direction: column;
-    position: absolute;
-    top: 100%;
-    left: 0;
-    width: 100%;
-    background-color: #2D6A4F;
-    padding: 30px;
-    gap: 20px;
-    box-shadow: 0 10px 15px rgba(0,0,0,0.1);
-  }
-
-  .nav-mobile-active {
-    display: flex;
-  }
-
-  .btn-header-cta {
-    width: 100%;
-    text-align: center;
-  }
-
-  /* --- Textos y Grillas Generales --- */
-  .hero-title {
-    font-size: 2.2rem;
-  }
-
-  .grid {
-    grid-template-columns: 1fr; /* Una columna en móvil para secciones generales */
-  }
-
-  /* --- NUEVO: Ajustes para Servicios --- */
-  .servicios-grid {
-    /* Forzamos a que siempre haya 2 columnas de igual tamaño */
-    grid-template-columns: repeat(2, 1fr);
-    gap: 12px;
-  }
-
-  .servicio-item {
-    /* Hacemos la tarjeta más compacta e invertimos la dirección */
-    padding: 16px 12px; 
-    font-size: 0.85rem; 
-    flex-direction: column; 
-    text-align: center;
-    gap: 8px;
-  }
-}
-
-/* Botón WhatsApp Flotante */
-.btn-whatsapp {
-  position: fixed;
-  bottom: 25px;
-  right: 25px;
-  background-color: #25D366;
-  color: white;
-  padding: 12px 20px;
-  border-radius: 50px;
-  text-decoration: none;
-  font-weight: bold;
-  box-shadow: 0 4px 12px rgba(0,0,0,0.2);
-  z-index: 100;
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  transition: transform 0.3s;
-  justify-content: center;
-  gap: 8px;              /* Espacio bonito entre el logo y la palabra */
-}
-
-.btn-whatsapp:hover {
-  transform: scale(1.05);
-}
-
-/* =========================================
-   6. PORTAL DE CLIENTES & LOGIN (CORREGIDO)
-   ========================================= */
-
-/* --- Pantalla de Login --- */
-.login-section {
-  min-height: 100vh;
-  display: flex;
-  align-items: center;
-  background-color: #F4F7F5; /* Fondo blanco verdoso de la landing */
-}
-
-.login-container {
-  max-width: 400px;
-  margin: 0 auto;
-  background: white;
-  padding: 40px;
-  border-radius: 12px;
-  box-shadow: 0 4px 15px rgba(0,0,0,0.05);
-  border: 1px solid #E2E8F0;
-}
-
-/* Forzamos el centrado del título aquí */
-.login-container .section-title {
-  text-align: center;
-  font-size: 1.8rem;
-  margin-bottom: 10px;
-}
-
-.login-subtitle {
-  text-align: center;
-  margin-bottom: 30px;
-  font-size: 1rem;
-}
-
-.btn-full-width {
-  width: 100%;
-}
-
-.form-message {
-  margin-top: 15px;
-  text-align: center;
-  font-weight: bold;
-}
-
-.form-message.success {
-  color: #2D6A4F; /* Verde bosque para éxito */
-}
-
-.form-message.error {
-  color: #d9534f; /* Rojo estándar para error */
-}
-
-/* --- Dashboard del Portal --- */
-.portal-layout {
-  min-height: 100vh;
-  background-color: #E8EDE9; /* Fondo gris verdoso suave */
-}
-
-.portal-header {
-  background-color: #2D6A4F; /* Verde Bosque principal (igual que la landing) */
-  color: #F4F7F5;
-  padding: 15px 5%;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  box-shadow: 0 2px 10px rgba(0,0,0,0.1);
-}
-
-.portal-header-title {
-  margin: 0;
-  font-size: 1.3rem;
-  font-weight: bold;
-}
-
-.portal-user-info {
-  display: flex;
-  align-items: center;
-  gap: 20px;
-  font-size: 0.95rem;
-}
-
-/* Botón de cerrar sesión con estilo secundario (borde menta) */
-.btn-logout {
-  padding: 6px 14px;
-  background-color: transparent;
-  color: #F4F7F5;
-  border: 1px solid #A8E6CF; /* Verde menta */
-  border-radius: 6px;
-  cursor: pointer;
-  transition: all 0.3s ease;
-  font-weight: 500;
-}
-
-.btn-logout:hover {
-  background-color: rgba(168, 230, 207, 0.1);
-}
-
-.portal-main {
-  padding: 50px 5%;
-  max-width: 1200px;
-  margin: 0 auto;
-}
-
-.portal-card {
-  background-color: white;
-  padding: 35px;
-  border-radius: 12px;
-  box-shadow: 0 4px 6px rgba(0,0,0,0.02);
-  border: 1px solid #E2E8F0;
-}
-
-.portal-card-title {
-  border-bottom: 2px solid #A8E6CF; /* Subrayado Verde Menta */
-  padding-bottom: 15px;
-  margin-bottom: 25px;
-  color: #2D6A4F; /* Título Verde Bosque */
-  font-size: 1.5rem;
-}
-
-.portal-empty-text {
-  color: #52796F;
-  text-align: center;
-  padding: 40px 0;
-  font-style: italic;
-}
-
-/* Ajustes Responsive para el Portal */
-@media (max-width: 768px) {
-  .portal-header {
-    flex-direction: column;
-    gap: 10px;
-    padding: 15px 20px;
-    text-align: center;
-  }
-  .portal-user-info {
-    flex-direction: column;
-    gap: 10px;
-  }
-  .portal-main {
-    padding: 20px;
-  }
-  .portal-card {
-    padding: 20px;
-  }
-}
-
-/* Botón para volver al inicio desde el Login */
-.btn-back {
-  display: inline-block;
-  margin-bottom: 20px;
-  color: #52796F;
-  text-decoration: none;
-  font-size: 0.9rem;
-  font-weight: 500;
-  transition: color 0.3s ease;
-}
-
-.btn-back:hover {
-  color: #2D6A4F;
-  text-decoration: underline;
+  .menu-icon { display: block; }
+  .nav { display: none; flex-direction: column; position: absolute; top: 100%; left: 0; width: 100%; background-color: var(--esmeralda); padding: 30px; gap: 20px; box-shadow: 0 10px 15px rgba(0,0,0,0.1); }
+  .nav-mobile-active { display: flex; }
+  .btn-header-cta { width: 100%; text-align: center; }
+  
+  .hero-title { font-size: 2.2rem; }
+  .hero-container { flex-direction: column; text-align: center; gap: 30px; }
+  .grid { grid-template-columns: 1fr; }
+  
+  .servicios-grid { grid-template-columns: repeat(2, 1fr); gap: 12px; }
+  .servicio-item { padding: 16px 12px; font-size: 0.85rem; flex-direction: column; text-align: center; gap: 8px; }
+  
+  .portal-header { flex-direction: column; gap: 10px; padding: 15px 20px; text-align: center; }
+  .portal-user-info { flex-direction: column; gap: 10px; }
+  .portal-main, .portal-card { padding: 20px; }
 }
