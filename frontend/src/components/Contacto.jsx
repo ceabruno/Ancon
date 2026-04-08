@@ -1,63 +1,65 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
 
 export default function Contacto() {
-  // 1. Variables de estado para guardar lo que el usuario escribe
   const [formData, setFormData] = useState({
     empresa: '',
     email: '',
-    mensaje: ''
+    mensaje: '',
+    telefono_secundario: '' // <-- ESTE ES EL HONEYPOT
   });
 
-  // Variables para mostrarle al usuario si se envió bien, si hay error o si está cargando
   const [estadoRespuesta, setEstadoRespuesta] = useState({ tipo: '', texto: '' });
   const [cargando, setCargando] = useState(false);
+  const [tiempoInicio, setTiempoInicio] = useState(0);
 
-  // 2. Función que actualiza el estado cada vez que se teclea una letra
+  // Cuando el componente carga, guardamos la marca de tiempo (Timestamp)
+  useEffect(() => {
+    setTiempoInicio(Date.now());
+  }, []);
+
   const handleChange = (e) => {
     setFormData({
       ...formData,
-      [e.target.name]: e.target.value // Usa el 'name' del input para saber qué actualizar
+      [e.target.name]: e.target.value
     });
   };
 
-  // 3. Función principal que envía los datos a tu Docker (PHP)
   const handleSubmit = async (e) => {
-    e.preventDefault(); // Evita que la página se actualice y se pierdan los datos
+    e.preventDefault(); 
     setCargando(true);
-    setEstadoRespuesta({ tipo: '', texto: '' }); // Limpiamos mensajes anteriores
+    setEstadoRespuesta({ tipo: '', texto: '' }); 
+
+    // Calculamos cuánto tiempo tardó en enviar desde que cargó la página (en segundos)
+    const tiempoTardado = (Date.now() - tiempoInicio) / 1000;
 
     try {
-      // Hacemos la petición a tu servidor local de pruebas
       const response = await fetch('http://localhost:8080/contacto.php', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify(formData), // Convertimos los datos a texto para que PHP los entienda
+        // Enviamos los datos + el tiempo que tardó
+        body: JSON.stringify({ ...formData, tiempo_tardado: tiempoTardado }), 
       });
 
-      // Leemos la respuesta de tu archivo contacto.php
       const data = await response.json();
 
       if (response.ok) {
-        // Si todo sale bien (Código 200)
         setEstadoRespuesta({ tipo: 'exito', texto: data.mensaje || 'Mensaje enviado correctamente.' });
-        // Limpiamos las casillas para que queden en blanco de nuevo
-        setFormData({ empresa: '', email: '', mensaje: '' });
+        setFormData({ empresa: '', email: '', mensaje: '', telefono_secundario: '' });
+        // Reiniciamos el reloj para un nuevo mensaje potencial
+        setTiempoInicio(Date.now());
       } else {
-        // Si el PHP detecta un error (ej: correo inválido)
         setEstadoRespuesta({ tipo: 'error', texto: data.error || 'Hubo un problema al enviar.' });
       }
     } catch (error) {
-      // Si el servidor de Docker está apagado o falla la conexión
       console.error('Error de red:', error);
       setEstadoRespuesta({ 
         tipo: 'error', 
         texto: 'No se pudo conectar con el servidor. Verifica que tu entorno esté activo.' 
       });
     } finally {
-      // Terminamos de cargar, sea cual sea el resultado
       setCargando(false);
     }
   };
@@ -74,10 +76,8 @@ export default function Contacto() {
         <h2 className="section-title">Agendar Reunión</h2>
         <p className="text">Déjanos tus datos y nos pondremos en contacto contigo a la brevedad para coordinar nuestra reunión.</p>
         
-        {/* Agregamos el onSubmit al formulario */}
         <form className="form" onSubmit={handleSubmit}>
           
-          {/* Agregamos name, value, onChange y required a cada input */}
           <input 
             type="text" 
             name="empresa"
@@ -85,7 +85,7 @@ export default function Contacto() {
             className="input" 
             value={formData.empresa}
             onChange={handleChange}
-            required
+            required /* OBLIGATORIO */
           />
           <input 
             type="email" 
@@ -94,23 +94,40 @@ export default function Contacto() {
             className="input" 
             value={formData.email}
             onChange={handleChange}
-            required
+            required /* OBLIGATORIO */
           />
+
+          {/* --- INICIO DEL HONEYPOT --- */}
+          {/* Se usa opacity: 0 y position absolute para que no ocupe espacio visual, 
+              pero siga en el DOM para que los bots tontos lo llenen. 
+              NO TIENE el atributo required. */}
+          <div style={{ opacity: 0, position: 'absolute', top: '-9999px', left: '-9999px' }} aria-hidden="true">
+            <label htmlFor="telefono_secundario">Por favor, deja este campo vacío si eres humano</label>
+            <input 
+              type="text" 
+              name="telefono_secundario" 
+              id="telefono_secundario"
+              value={formData.telefono_secundario}
+              onChange={handleChange}
+              tabIndex="-1" 
+              autoComplete="off"
+            />
+          </div>
+          {/* --- FIN DEL HONEYPOT --- */}
+
           <textarea 
             name="mensaje"
             placeholder="¿En qué podemos ayudarte?" 
             className="textarea"
             value={formData.mensaje}
             onChange={handleChange}
-            required
+            required /* OBLIGATORIO */
           ></textarea>
           
-          {/* Desactivamos el botón si está cargando para que no hagan doble clic */}
           <button type="submit" className="btn-primary" disabled={cargando}>
             {cargando ? 'Enviando...' : 'Enviar Mensaje'}
           </button>
 
-          {/* Bloque para mostrar el mensaje de feedback (usando las clases de App.css) */}
           {estadoRespuesta.texto && (
             <p className={`form-message ${estadoRespuesta.tipo === 'error' ? 'error' : 'exito'}`}>
               {estadoRespuesta.texto}

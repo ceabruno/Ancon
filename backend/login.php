@@ -36,11 +36,13 @@ if (!empty($data->email) && !empty($data->password)) {
         // 3. VERIFICAMOS LA CONTRASEÑA
         if (password_verify($data->password, $usuario['password'])) {
             
-            // ÉXITO: Generamos token y REINICIAMOS los intentos fallidos a 0
+            // ÉXITO: Generamos token, expiración (8 horas) y REINICIAMOS intentos
             $token = bin2hex(random_bytes(32));
-            $sqlSuccess = "UPDATE usuarios SET token_sesion = :token, intentos_fallidos = 0, bloqueado_hasta = NULL WHERE id = :id";
+            $expira = date('Y-m-d H:i:s', strtotime('+8 hours')); // Caduca en 8 horas
+            
+            $sqlSuccess = "UPDATE usuarios SET token_sesion = :token, token_expira = :expira, intentos_fallidos = 0, bloqueado_hasta = NULL WHERE id = :id";
             $stmtUpdate = $conexion->prepare($sqlSuccess);
-            $stmtUpdate->execute([':token' => $token, ':id' => $usuario['id']]);
+            $stmtUpdate->execute([':token' => $token, ':expira' => $expira, ':id' => $usuario['id']]);
 
             echo json_encode([
                 "mensaje" => "Login exitoso",

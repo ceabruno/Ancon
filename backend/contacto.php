@@ -16,13 +16,34 @@ if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
     exit();
 }
 
-// 2. INCLUIR LA BASE DE DATOS
 require_once __DIR__ . '/db.php'; 
 
-// 3. CAPTURAR DATOS
 $data = json_decode(file_get_contents("php://input"));
 
-if (isset($data->empresa) && isset($data->email) && isset($data->mensaje)) {
+// ---------------------------------------------------------
+// 2. FILTROS ANTI-SPAM INVISIBLES (HONEYPOT Y TIEMPO)
+// ---------------------------------------------------------
+
+// A. Filtro Honeypot (El campo que un humano no ve)
+if (!empty($data->telefono_secundario)) {
+    // Si tiene algo escrito, es un bot. 
+    // TRUCO DE SEGURIDAD: Le decimos que fue "exitoso" para que el bot no intente otras estrategias.
+    http_response_code(200);
+    exit(json_encode(["mensaje" => "Solicitud de reunión recibida y guardada correctamente."])); 
+}
+
+// B. Filtro de Tiempo (Un humano no llena 3 campos en menos de 3 segundos)
+if (isset($data->tiempo_tardado) && $data->tiempo_tardado < 3.0) {
+    // Es un bot muy rápido. Nuevamente, lo engañamos con falso éxito.
+    http_response_code(200);
+    exit(json_encode(["mensaje" => "Solicitud de reunión recibida y guardada correctamente."]));
+}
+
+// ---------------------------------------------------------
+// 3. PROCESAMIENTO NORMAL DE DATOS (Si pasó los filtros)
+// ---------------------------------------------------------
+
+if (!empty($data->empresa) && !empty($data->email) && !empty($data->mensaje)) {
     
     $empresa = htmlspecialchars(strip_tags($data->empresa));
     $email = filter_var($data->email, FILTER_SANITIZE_EMAIL);
@@ -34,7 +55,6 @@ if (isset($data->empresa) && isset($data->email) && isset($data->mensaje)) {
         exit();
     }
 
-    // 4. GUARDAR EN LA BASE DE DATOS
     try {
         $sql = "INSERT INTO contactos (empresa, email, mensaje) VALUES (:empresa, :email, :mensaje)";
         $stmt = $conexion->prepare($sql);
@@ -43,34 +63,22 @@ if (isset($data->empresa) && isset($data->email) && isset($data->mensaje)) {
             ':email' => $email,
             ':mensaje' => $mensaje
         ]);
-
-        // ---------------------------------------------------------
-        // 5. NUEVO: ENVIAR EL CORREO ELECTRÓNICO
-        // ---------------------------------------------------------
         
-        // ¿A dónde quieres que llegue la notificación? (Reemplázalo por tu correo)
         $destinatario = "contacto@ancon.cl"; 
-        
         $asunto = "Nueva Solicitud de Reunión - $empresa";
         
-        // Armamos el texto que leerás en el correo
         $cuerpoMensaje = "Hola, has recibido una nueva solicitud de reunión desde la página web.\n\n";
         $cuerpoMensaje .= "Detalles del contacto:\n";
         $cuerpoMensaje .= "- Empresa: " . $empresa . "\n";
         $cuerpoMensaje .= "- Correo del cliente: " . $email . "\n\n";
         $cuerpoMensaje .= "Mensaje:\n" . $mensaje . "\n";
         
-        // Cabeceras importantes para evitar que caiga en Spam
-        // IMPORTANTE: El correo en "From" debe existir en tu cPanel (ej: no-reply@ancon.cl o el mismo contacto@ancon.cl)
         $headers = "From: contacto@ancon.cl\r\n"; 
-        $headers .= "Reply-To: " . $email . "\r\n"; // Si le das a "Responder" en tu correo, le responderá al cliente
+        $headers .= "Reply-To: " . $email . "\r\n"; 
         $headers .= "X-Mailer: PHP/" . phpversion();
 
-        // Ejecutamos la función de envío
-        mail($destinatario, $asunto, $cuerpoMensaje, $headers);
-        // ---------------------------------------------------------
+        @mail($destinatario, $asunto, $cuerpoMensaje, $headers);
 
-        // 6. RESPUESTA EXITOSA AL FRONTEND
         http_response_code(200);
         echo json_encode(["mensaje" => "Solicitud de reunión recibida y guardada correctamente. Empresa: $empresa"]);
 
@@ -82,6 +90,6 @@ if (isset($data->empresa) && isset($data->email) && isset($data->mensaje)) {
 
 } else {
     http_response_code(400);
-    echo json_encode(["error" => "Datos incompletos. Por favor llena todos los campos."]);
+    echo json_encode(["error" => "Datos incompletos. Por favor llena todos los campos obligatorios."]);
 }
 ?>

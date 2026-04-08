@@ -11,11 +11,15 @@ $headers = apache_request_headers();
 $token = str_replace('Bearer ', '', $headers['Authorization'] ?? '');
 
 try {
-    $stmtUser = $conexion->prepare("SELECT id, rol FROM usuarios WHERE token_sesion = :token LIMIT 1");
+    // MAGIA DE SEGURIDAD: AND token_expira > NOW()
+    $stmtUser = $conexion->prepare("SELECT id, rol FROM usuarios WHERE token_sesion = :token AND token_expira > NOW() LIMIT 1");
     $stmtUser->execute([':token' => $token]);
     $user = $stmtUser->fetch(PDO::FETCH_ASSOC);
 
-    if (!$user) { http_response_code(401); exit(json_encode(["error" => "Sesión inválida"])); }
+    if (!$user) { 
+        http_response_code(401); 
+        exit(json_encode(["error" => "Sesión inválida o expirada. Por favor, inicia sesión de nuevo."])); 
+    }
 
     if ($user['rol'] === 'admin') {
         $clientes = $conexion->query("SELECT id, nombre FROM usuarios WHERE rol = 'cliente' ORDER BY nombre ASC")->fetchAll(PDO::FETCH_ASSOC);
@@ -27,3 +31,4 @@ try {
         echo json_encode(["documentos" => $stmt->fetchAll(PDO::FETCH_ASSOC)]);
     }
 } catch(PDOException $e) { http_response_code(500); }
+?>
