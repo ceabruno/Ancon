@@ -22,7 +22,7 @@ export default function Login() {
     setEstadoRespuesta({ tipo: '', texto: '' });
 
     try {
-      const response = await fetch('http://localhost:8080/login.php', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(formData) });
+      const response = await fetch(import.meta.env.VITE_API_URL + '/login.php', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(formData) });
       const data = await response.json();
 
       if (response.ok) {
@@ -40,7 +40,7 @@ export default function Login() {
     setEstadoRespuesta({ tipo: '', texto: '' });
 
     try {
-      const response = await fetch('http://localhost:8080/recuperar_password.php', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ email: emailRecuperacion }) });
+      const response = await fetch(import.meta.env.VITE_API_URL + '/recuperar_password.php', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ email: emailRecuperacion }) });
       const data = await response.json();
       if (response.ok) {
         setEstadoRespuesta({ tipo: 'exito', texto: data.mensaje });

@@ -34,7 +34,7 @@ export default function Contacto() {
     const tiempoTardado = (Date.now() - tiempoInicio) / 1000;
 
     try {
-      const response = await fetch('http://localhost:8080/contacto.php', {
+      const response = await fetch(import.meta.env.VITE_API_URL + '/contacto.php', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

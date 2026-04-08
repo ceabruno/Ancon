@@ -13,7 +13,13 @@ export default function Portal() {
     else setUsuario(JSON.parse(usuarioGuardado));
   }, [navigate]);
 
-  const handleCerrarSesion = () => {
+  const handleCerrarSesion = async () => {
+    if (usuario && usuario.token) {
+      await fetch(import.meta.env.VITE_API_URL + '/logout.php', {
+        method: 'POST',
+        headers: { 'Authorization': `Bearer ${usuario.token}` }
+      }).catch(() => {});
+    }
     localStorage.removeItem('usuarioAncon');
     navigate('/login');
   };
@@ -22,7 +28,7 @@ export default function Portal() {
     if (usuario) {
       const cargarDatos = async () => {
         try {
-          const response = await fetch('http://localhost:8080/obtener_datos.php', {
+          const response = await fetch(import.meta.env.VITE_API_URL + 'obtener_datos.php', {
             method: 'POST',
             headers: { 
               'Content-Type': 'application/json',
@@ -67,7 +73,9 @@ function VistaAdmin({ clientes, documentos, token }) {
   const [formCliente, setFormCliente] = useState({ nombre: '', email: '' });
 
   const apiFetch = async (url, body) => {
-    return fetch(`http://localhost:8080/${url}`, {
+    const baseUrl = import.meta.env.VITE_API_URL;
+
+    return fetch(`${baseUrl}/${url}`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${token}` },
       body: JSON.stringify(body)
@@ -155,7 +163,7 @@ function VistaCliente({ documentos, token }) {
   const cambiarClave = async (e) => {
     e.preventDefault();
     if (pass.nueva !== pass.confirma) return alert("No coinciden");
-    const res = await fetch('http://localhost:8080/cambiar_password.php', {
+    const res = await fetch(import.meta.env.VITE_API_URL + 'cambiar_password.php', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${token}` },
       body: JSON.stringify({ password_actual: pass.actual, nueva_password: pass.nueva })

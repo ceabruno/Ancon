@@ -33,7 +33,7 @@ if (!empty($data->telefono_secundario)) {
 }
 
 // B. Filtro de Tiempo (Un humano no llena 3 campos en menos de 3 segundos)
-if (isset($data->tiempo_tardado) && $data->tiempo_tardado < 3.0) {
+if (isset($data->tiempo_tardado) && $data->tiempo_tardado < 1) {
     // Es un bot muy rápido. Nuevamente, lo engañamos con falso éxito.
     http_response_code(200);
     exit(json_encode(["mensaje" => "Solicitud de reunión recibida y guardada correctamente."]));
