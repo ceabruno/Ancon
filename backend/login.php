@@ -26,25 +26,23 @@ if (isset($data->email) && isset($data->password)) {
     $password = $data->password; // No la limpiamos aún porque las contraseñas pueden tener caracteres especiales
 
     try {
-        // 1. Buscamos al usuario por su email
-        $sql = "SELECT id, nombre, password, rol FROM usuarios WHERE email = :email LIMIT 1";
+        // 1. Añadimos debe_cambiar_pass a la búsqueda
+        $sql = "SELECT id, nombre, password, rol, debe_cambiar_pass FROM usuarios WHERE email = :email LIMIT 1";
         $stmt = $conexion->prepare($sql);
         $stmt->execute([':email' => $email]);
         
         $usuario = $stmt->fetch(PDO::FETCH_ASSOC);
 
-        // 2. Verificamos si el usuario existe y si la contraseña es correcta
-        // password_verify compara la clave escrita con la clave encriptada de la base de datos
         if ($usuario && password_verify($password, $usuario['password'])) {
             
-            // ¡Login Exitoso! 
             http_response_code(200);
             echo json_encode([
                 "mensaje" => "Login exitoso",
                 "usuario" => [
                     "id" => $usuario['id'],
                     "nombre" => $usuario['nombre'],
-                    "rol" => $usuario['rol']
+                    "rol" => $usuario['rol'],
+                    "debe_cambiar_pass" => $usuario['debe_cambiar_pass'] // Lo enviamos a React
                 ]
             ]);
 

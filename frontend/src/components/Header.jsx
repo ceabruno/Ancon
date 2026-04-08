@@ -1,8 +1,6 @@
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 
-// 1. IMPORTAMOS EL LOGO
-// Fíjate cómo la ruta debe coincidir exactamente con el nombre de tu archivo
 import logoAncon from '../assets/Logo fondo chico.webp'; 
 
 const UserIcon = () => (
