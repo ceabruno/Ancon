@@ -1,6 +1,5 @@
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
-
 import logoAncon from '../assets/Logo fondo chico.webp'; 
 
 const UserIcon = () => (
@@ -15,33 +14,18 @@ export default function Header() {
 
   return (
     <header className="header">
-      
-      {/* 2. REEMPLAZAMOS EL TEXTO POR LA IMAGEN */}
-      {/* Lo envolvemos en un <Link> para que al hacer clic en el logo, te devuelva al inicio */}
-      <Link to="/" style={{ display: 'flex', alignItems: 'center', textDecoration: 'none' }}>
-        <img 
-          src={logoAncon} 
-          alt="AnCon SPA Logo" 
-          style={{ height: '95px', objectFit: 'contain' }} 
-        />
+      <Link to="/" className="logo-link">
+        <img src={logoAncon} alt="AnCon SPA Logo" className="header-logo" />
       </Link>
       
-      <div className="menu-icon" onClick={() => setIsOpen(!isOpen)}>
-        {isOpen ? '✕' : '☰'}
-      </div>
+      <div className="menu-icon" onClick={() => setIsOpen(!isOpen)}>{isOpen ? '✕' : '☰'}</div>
 
       <nav className={`nav ${isOpen ? 'nav-mobile-active' : ''}`}>
         <a href="#inicio" className="nav-link" onClick={() => setIsOpen(false)}>Inicio</a>
         <a href="#nosotros" className="nav-link" onClick={() => setIsOpen(false)}>Nosotros</a>
         <a href="#servicios" className="nav-link" onClick={() => setIsOpen(false)}>Servicios</a>
-        
-        <Link to="/login" className="nav-link btn-login" onClick={() => setIsOpen(false)}>
-          <UserIcon /> Iniciar Sesión
-        </Link>
-
-        <a href="#contacto" className="btn-header-cta" onClick={() => setIsOpen(false)}>
-          Agendar Reunión
-        </a>
+        <Link to="/login" className="nav-link btn-login" onClick={() => setIsOpen(false)}><UserIcon /> Iniciar Sesión</Link>
+        <a href="#contacto" className="btn-header-cta" onClick={() => setIsOpen(false)}>Agendar Reunión</a>
       </nav>
     </header>
   );

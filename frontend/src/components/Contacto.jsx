@@ -110,13 +110,9 @@ export default function Contacto() {
             {cargando ? 'Enviando...' : 'Enviar Mensaje'}
           </button>
 
-          {/* Bloque para mostrar el mensaje de feedback (verde para éxito, rojo para error) */}
+          {/* Bloque para mostrar el mensaje de feedback (usando las clases de App.css) */}
           {estadoRespuesta.texto && (
-            <p style={{ 
-              marginTop: '15px', 
-              fontWeight: 'bold',
-              color: estadoRespuesta.tipo === 'error' ? '#d9534f' : '#5cb85c' 
-            }}>
+            <p className={`form-message ${estadoRespuesta.tipo === 'error' ? 'error' : 'exito'}`}>
               {estadoRespuesta.texto}
             </p>
           )}
