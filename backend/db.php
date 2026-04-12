@@ -1,4 +1,17 @@
 <?php
+// --- SOLUCIÓN CORS ---
+// 1. Dar permiso a tu frontend para comunicarse con este backend
+header("Access-Control-Allow-Origin: *"); // Permite solicitudes desde cualquier origen
+header("Access-Control-Allow-Methods: GET, POST, OPTIONS, PUT, DELETE"); // Permite estos métodos
+header("Access-Control-Allow-Headers: Content-Type, Authorization"); // Permite estos encabezados
+
+// 2. Interceptar la solicitud de prueba (Preflight / OPTIONS) del navegador
+if ($_SERVER['REQUEST_METHOD'] === 'OPTIONS') {
+    http_response_code(200); // Le decimos al navegador que todo está OK
+    exit(); // Detenemos la ejecución aquí para la solicitud de prueba
+}
+// ---------------------
+
 /**
  * db.php
  * Este archivo establece la conexión segura a la base de datos.

@@ -28,7 +28,7 @@ export default function Portal() {
     if (usuario) {
       const cargarDatos = async () => {
         try {
-          const response = await fetch(import.meta.env.VITE_API_URL + 'obtener_datos.php', {
+          const response = await fetch(import.meta.env.VITE_API_URL + '/obtener_datos.php', {
             method: 'POST',
             headers: { 
               'Content-Type': 'application/json',
@@ -85,13 +85,25 @@ function VistaAdmin({ clientes, documentos, token }) {
   const handleSubmit = async (e) => {
     e.preventDefault();
     const res = await apiFetch('subir_documento.php', formData);
-    if (res.ok) { alert("✅ Guardado"); window.location.reload(); }
+    
+    if (res.ok) { 
+      alert("✅ Guardado"); 
+      window.location.reload(); 
+    } else {
+      const errorData = await res.json();
+      alert(`❌ Error al guardar: ${errorData.error}`);
+    }
   };
 
   const handleCrearCliente = async (e) => {
     e.preventDefault();
-    const res = await apiFetch('crear_cliente.php', formCliente);
-    if (res.ok) { alert("✅ Cliente Creado"); window.location.reload(); }
+    const res = await apiFetch('/crear_cliente.php', formCliente);
+    const data = await res.json(); // Leer la respuesta JSON
+    if (res.ok) { 
+        // Mostrar la contraseña en la alerta
+        alert(`✅ Cliente Creado. Clave temporal: ${data.password_generada || 'No disponible'}`); 
+        window.location.reload(); 
+    }
   };
 
   const handleEliminar = async (id) => {
@@ -163,7 +175,7 @@ function VistaCliente({ documentos, token }) {
   const cambiarClave = async (e) => {
     e.preventDefault();
     if (pass.nueva !== pass.confirma) return alert("No coinciden");
-    const res = await fetch(import.meta.env.VITE_API_URL + 'cambiar_password.php', {
+    const res = await fetch(import.meta.env.VITE_API_URL + '/cambiar_password.php', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${token}` },
       body: JSON.stringify({ password_actual: pass.actual, nueva_password: pass.nueva })

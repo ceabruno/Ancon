@@ -42,7 +42,11 @@ if (!empty($data->nombre) && !empty($data->email)) {
         
         @mail($para, $asunto, $mensaje, $cabeceras);
 
-        echo json_encode(["mensaje" => "Cliente creado exitosamente."]);
+        // ¡ADVERTENCIA: Quita $password_plana de la respuesta en producción!
+        echo json_encode([
+            "mensaje" => "Cliente creado exitosamente.",
+            "password_generada" => $password_plana 
+        ]);
     } catch(PDOException $e) {
         http_response_code(500); 
         echo json_encode(["error" => "El correo ya existe en el sistema."]);
