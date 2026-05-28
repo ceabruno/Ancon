@@ -1,5 +1,5 @@
 /* =========================================
-   1. VARIABLES DE COLOR (NUEVA PALETA PREMIUM)
+   1. VARIABLES DE COLOR (PALETA PREMIUM)
    ========================================= */
 :root {
   --oro: #D4AF37;            /* Dorado (Botones y destacados) */
@@ -42,21 +42,47 @@ html, body {
    ========================================= */
 .section-light { background-color: var(--blanco); padding: 80px 0; }
 .section-dark, .portal-layout, .login-section { background-color: var(--gris-claro); padding: 80px 0; }
-.hero-section { padding: 100px 20px; min-height: 75vh; display: flex; align-items: center; justify-content: center; }
-.hero-container { display: flex; align-items: center; justify-content: space-between; gap: 50px; text-align: left; }
+.hero-section { padding: 100px 20px; min-height: 82vh; display: flex; align-items: center; justify-content: center; }
+
+/* --- CONTENEDOR HERO ESCRITORIO --- */
+.hero-container { 
+  display: flex; 
+  align-items: stretch; /* Estira la imagen para que mida igual que el texto */
+  justify-content: space-between; 
+  gap: 50px; 
+  text-align: left; 
+}
+
 .hero-text { 
   flex: 1; 
   display: flex;
   flex-direction: column;
-  justify-content: center; /* Mantiene tu texto y botón centrados verticalmente */
-  align-items: flex-start; /* Asegura que el botón se alinee a la izquierda */
+  justify-content: center;
+  align-items: flex-start;
 }
-.hero-image { flex: 1; display: flex; justify-content: center; }
+
+.hero-image { 
+  flex: 1; 
+  display: flex; 
+  justify-content: center; 
+  align-items: stretch; /* hace que la imagen ocupe toda la altura de la columna */
+}
+
+.hero-img-main { 
+  width: 100%; 
+  max-width: none; /* ocupa todo el ancho de la columna derecha */
+  height: 100%; /* Se adapta a la altura de la columna */
+  min-height: 0; /* evitamos que fije una altura mayor que el texto */
+  object-fit: cover; /* mantiene aspecto sin distorsión */
+  border-radius: 12px;
+  box-shadow: 0 10px 30px rgba(0,0,0,0.08); 
+}
+
 .portal-layout, .login-section { min-height: 100vh; padding: 0; }
 .login-section { display: flex; align-items: center; }
 .portal-main { padding: 50px 5%; max-width: 1200px; margin: 0 auto; }
 
-/* Estilos combinados para todas las "Cajas" (Cards, Portal, Login) */
+/* Cajas (Cards, Portal, Login) */
 .card, .servicio-item, .login-container, .portal-card {
   background: var(--blanco);
   border-radius: 12px;
@@ -112,20 +138,16 @@ html, body {
   border-radius: 6px; text-decoration: none; font-weight: bold; cursor: pointer; transition: all 0.3s ease;
 }
 
-/* Botones Principales (Dorado con texto oscuro para contraste premium) */
 .btn-primary { background-color: var(--oro); color: var(--negro); padding: 16px 30px; border: none; }
 .btn-primary:hover { background-color: var(--oro-hover); color: var(--negro); box-shadow: 0 4px 10px rgba(212, 175, 55, 0.3); }
 .btn-full-width { width: 100%; }
 
-/* Botones Secundarios del Header (Dorado) */
 .btn-header-cta { background-color: var(--oro); color: var(--negro); padding: 8px 18px; font-size: 0.9rem; box-shadow: 0 2px 5px rgba(0,0,0,0.2); border: none; }
 .btn-header-cta:hover { background-color: var(--oro-hover); transform: translateY(-1px); }
 
-/* Botones Fantasma en Header (Login/Logout) */
 .btn-login, .btn-logout { background-color: transparent; border: 1px solid var(--gris-claro); padding: 6px 14px; color: var(--blanco); display: flex; align-items: center; gap: 6px; }
 .btn-login:hover, .btn-logout:hover { border-color: var(--oro); color: var(--oro); background-color: rgba(212, 175, 55, 0.05); }
 
-/* WhatsApp (Mantenemos verde original por reglas de marca global de WhatsApp) */
 .btn-whatsapp { position: fixed; bottom: 25px; right: 25px; background-color: #25D366; color: var(--blanco); padding: 12px 20px; border-radius: 50px; z-index: 100; display: flex; align-items: center; gap: 8px; box-shadow: 0 4px 12px rgba(0,0,0,0.2); }
 .btn-whatsapp:hover { transform: scale(1.05); }
 
@@ -152,16 +174,33 @@ html, body {
   .btn-header-cta { width: 100%; text-align: center; }
   
   .hero-title { font-size: 2.2rem; }
-  .hero-container { 
-  display: flex; 
-  /* CAMBIO CLAVE: 'stretch' hace que ambas columnas midan lo mismo de alto */
-  align-items: stretch; 
-  justify-content: space-between; 
-  gap: 50px; 
-  text-align: left; 
-}
-  .grid { grid-template-columns: 1fr; }
   
+  /* --- CONTENEDOR HERO MÓVIL: imagen arriba y tamaño adaptativo --- */
+  .hero-container {
+    flex-direction: column-reverse; /* mantiene la imagen arriba y el texto abajo */
+    text-align: center;
+    gap: 30px;
+    align-items: center;
+  }
+
+  .hero-text {
+    align-items: center; /* Centramos el texto y el botón en móviles */
+    width: 100%;
+  }
+
+  /* Forzamos tamaños adaptativos para evitar que la imagen se corte */
+  .hero-section { min-height: auto !important; padding: 60px 20px !important; }
+  .hero-image { width: 100%; display: flex; justify-content: center; }
+  .hero-img-main {
+    width: 100% !important;
+    height: auto !important; /* que la imagen adapte su alto */
+    min-height: 120px !important; /* presencia sin excesos */
+    max-height: 60vh !important; /* evita que ocupe toda la pantalla */
+    object-fit: contain !important; /* muestra la imagen completa sin recortarla */
+    border-radius: 12px;
+  }
+
+  .grid { grid-template-columns: 1fr; }
   .servicios-grid { grid-template-columns: repeat(2, 1fr); gap: 12px; }
   .servicio-item { padding: 16px 12px; font-size: 0.85rem; flex-direction: column; text-align: center; gap: 8px; }
   
@@ -175,7 +214,7 @@ html, body {
    ========================================= */
 .text-center { text-align: center !important; }
 .text-left { text-align: left !important; margin-left: 0 !important; }
-.text-esmeralda { color: var(--oro) !important; } /* Mantiene clase para no romper JSX, cambia a dorado visualmente */
+.text-esmeralda { color: var(--oro) !important; } 
 
 /* =========================================
    10. SECCIÓN NOSOTROS
@@ -242,30 +281,15 @@ html, body {
 .mt-neg-10 { margin-top: -10px !important; }
 .text-right { text-align: right !important; }
 
-/* Hero */
-.hero-img-main { 
-  width: 100%; 
-  max-width: 500px;
-  /* CAMBIO CLAVE: Le pedimos que ocupe el 100% del alto de su columna */
-  height: 100%; 
-  min-height: 400px; /* Previene que se haga muy pequeña en algunas pantallas */
-  object-fit: cover; /* Llena el espacio disponible recortando los bordes si es necesario, sin aplastar la imagen */
-  border-radius: 12px; /* Un ligero borde redondeado para mantener el estilo premium */
-  box-shadow: 0 10px 30px rgba(0,0,0,0.08); /* Opcional: Sombra elegante */
-}
 
-/* Header & Logos */
 .logo-link { display: flex; align-items: center; text-decoration: none; }
 .header-logo { height: 95px; object-fit: contain; }
 
-/* Footer */
 .footer-credit { font-size: 0.8rem; margin-top: 10px; opacity: 0.7; }
 .footer-link { color: var(--oro); text-decoration: underline; }
 
-/* Servicios */
 .icon-shrink { flex-shrink: 0; }
 
-/* Botones de texto (Enlaces sin fondo como "Olvidé mi contraseña") */
 .btn-text { background: none; border: none; cursor: pointer; transition: 0.3s; }
 .btn-text-muted { color: var(--carbon-light); text-decoration: underline; }
 .btn-text-muted:hover { color: var(--carbon); }
